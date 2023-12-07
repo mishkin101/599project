@@ -7,7 +7,7 @@ class Simplex:
     #create all instance varibales from player stratgies/ distirbutions
     def __init__(
         self,
-        players = list, 
+        players: list, 
         matrix: np.ndarray,
         coeffecients: list,
         constraints: [[int][int]], 
