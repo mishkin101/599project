@@ -8,7 +8,7 @@ Joint payoff: ?????
 individual versus group incentives
 PD: group and individual in conflict (joint payoffhighest when non-dominate stratgey is played)
 
-Mixed strategy Nash equlibirum:
+## Mixed strategy Nash equlibirum:
 - player payoff: (THIS IS EXOPECTATION VALUE) : probability * outcome
 Payoff(player 2 | strategy x) =Sum_x: P(player 1 marginal move x)((player 2 payoff strategy x ))
 - do for all strategies -> solve for marginal probabilities for each player
@@ -16,18 +16,18 @@ Payoff(player 2 | strategy x) =Sum_x: P(player 1 marginal move x)((player 2 payo
     - if pure: see if there does exist a nash equlibirum:
 '
 
-Pure Strategy: given player picks one strategy, is
+## Pure Strategy: given player picks one strategy, is
 - minmax function 
 -probability distribution
 
 
-Simplex method:
+## Simplex method:
 it is like taking steps around intersections of the simplex shape, and testing each maximum point at a corner
 1. Always a max function (multiply by -1 to transform)
 2. <= ( multiply the functions that are not in <= form)
 3. No non negative values (all variables must be >= 0)
 
-Process:
+## Process:
 1. Check the above conditions
 2. Set constraints to equalities and add slack for each
 3. Put variables into tablaeu (row for optimizaiton (z- rest =0, constraint n,...,))
