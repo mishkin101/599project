@@ -9,10 +9,10 @@ The type of game is always a **zero-sum** game, and players are choosing competi
 
 ## Descriptions
   All funcitons is commented to include the purpose.
-  **Game.py** : The class which stores the players and results of a game for a randomly generated zero-sum matrix 
-  **Player.py**: The class which describes the strategies, distributions, and optimal plays for a given.
-  **Simplex.py**: A custom implementation of the simplex algorithm, and an imp,ementaiton for converting the Maxmin problem to be compatible with 
-  **Quantum.py**: The quantum equivalent of the optimization subroutine
+  - **Game.py** : The class which stores the players and results of a game for a randomly generated zero-sum matrix 
+  - **Player.py**: The class which describes the strategies, distributions, and optimal plays for a given.
+  - **Simplex.py**: A custom implementation of the simplex algorithm, and an imp,ementaiton for converting the Maxmin problem to be compatible with 
+  - **Quantum.py**: The quantum equivalent of the optimization subroutine
 
 ## Algorithim
 - Set strategy distirbutons for players -- can be pure or mixed
