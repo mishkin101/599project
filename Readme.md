@@ -7,6 +7,19 @@ Our goal is to compare the results using the Gibbs Sampling method rather than t
 
 The type of game is always a **zero-sum** game, and players are choosing competitve strategies (hence, the minmax functions). Given these assumptions, we are always gauranteed to find a bound. 
 
+## Descriptions
+  All funcitons is commented to include the purpose.
+  **Game.py** : The class which stores the players and results of a game for a randomly generated zero-sum matrix 
+  **Player.py**: The class which describes the strategies, distributions, and optimal plays for a given.
+  **Simplex.py**: A custom implementation of the simplex algorithm, and an imp,ementaiton for converting the Maxmin problem to be compatible with 
+  **Quantum.py**: The quantum equivalent of the optimization subroutine
+
+## Algorithim
+- Set strategy distirbutons for players -- can be pure or mixed
+- Call game.playRounds() to test various comibations of starting strategies and the time taken to solve for the nash equilibirum given this starting set
+- Return all the round with the ending strategies for both players and the expected values at the equilbrium as well as the time to solve each round
+- Test with both the quantum solver and the simplex solver using the dual version of the simplex method to see the runtime.
+
 
 ## Quantum Subroutine Set-up 
 1. pick 2 starting random vectors.
@@ -27,11 +40,6 @@ a probabilitiy that is bounded by a one-norm instead of a 2-norm. Sparsity here 
 The rejectiom sampling portion will find the maximum element from the players mixed stratetgy outcome. We Accept with probability the element u_j from player 2's possible payoffs with proability e^(uj-u_max). We must consider sampling from all of players 2 choices, [m], uniformly and post-select for j-- meaning, we want to see how likely it is that this distrbution we have from player 1's choice will produce the max payoff for player 2.
 
 
-## Algorithim
-- Set strategy distirbutons for players -- can be pure or mixed
-- Call game.playRounds to test various comibations of starting strategies and the time taken to solve for the nash equilibirum given this starting set
-- Return all the round with the ending strategies for both players and the expected values at the equilbrium as well as the time to solve each round
-- Test with both the quantum solver and the simplex solver using the dual version of the simplex method
 
 
 ## Notes
