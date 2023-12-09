@@ -3,7 +3,7 @@ import numpy as np
 
 # A player has a:
 # Name
-# number of Classical Strategies 
+# Number of Classical Strategies 
 # Number of Quanntum Strategies
 # A list of probability distbrutions for their strategies
 # Their Strategy Type 
@@ -32,6 +32,7 @@ class Player:
         self.winnings = []
         self.losses = []
         self.quantum_strategies = quantum_strategies
+        #positions of the optimal strategies in all of a players distirbutions
         self.optimal_strategies = []
         self.current_strategy = None
 
@@ -110,9 +111,12 @@ class Player:
   def get_Name(self):
      return self.name
   
+  # A game may have more than one saddle point, leading to multiple optimal strategies.
+  # We remove the duplicates which can occur over testing different starting distirbutions in the 
+  # optimizer
   def get_optimal_strategies(self):
-     return [self.distirbutions[strategy] for strategy in self.optimal_strategies]
-  
+     return list(set([self.distirbutions[strategy] for strategy in self.optimal_strategies]))
+   
   def set_current_strategy(self, val):
      self.current_strategy = self.distirbutions[val]
    

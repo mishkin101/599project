@@ -1,9 +1,9 @@
 #define a payoff matrix
 #have a distribution of strategies that players choose from 
 import numpy as np
-import Player
-import Quantum
-import Simplex
+import Player as Player
+import Quantum as Quantum
+import Simplex as Simplex
 import time
 
 # A Game between players. We focus on zero-sum and 2 player games for this implementation functionality.
@@ -21,7 +21,7 @@ class Game:
         self, 
         players: [Player],
         #quantum : [results] , classical: [results]
-        results: {(Player, Player): list},
+        results: {(np.ndarray, np.ndarray): float},
         gametype: str, 
         rounds: int,
         player_player_matrices: {(Player, Player): np.ndarray},
@@ -32,12 +32,11 @@ class Game:
     ):
         self.players = []
         self.results = []
-        self.gametype = None
-        self.rounds = None
-        self.payoffs = 0
+        self.gametype = None,
+        self.outcomes = {(): },
         self.player_payoffs = {}
         self.strategy_values = {}
-        self.playtime =0
+        self.playtime = {(): float}
         return
     
     #Choose a gametype from the Game class.
@@ -85,17 +84,23 @@ class Game:
             best_player_strategies.solve()
         return player1.get_optimal_strategies(), player2.get_optimal_strategies
     
-    # Get the expected payout given two strategies if players simutaneously draw 
+    # Get the total time taken to find the optimal solution given a set of strating strategies
+    # Each round tests two different starting strategies and their convergence time
     def play_Rounds(self, player1, player2, pure=False, total_strategies = 1, quantum = False):
+        #determing if they start from pure or mixed strategies for this game.
         player1.generate_Distributions(total_strategies, pure)
         player2.generate_Distributions(total_strategies, pure)
         game_solver = Simplex(player1, player2, self.game_type)
+        #Each round has a different starting strategy. Testing to see which neighborhoods lead to faster convergence.
+        # The entire optimization happens within simplex.solve()
         for round in range(self.rounds):
+            # Draw from their existing mixed strategies
             player1.set_current_strategy(np.random.randint(1, total_strategies))
             player2.set_current_strategy(np.random.randint(1, total_strategies))
+            # Use optimizer to find the equlibrium
             time_to_play_round, result = self.timeGame(game_solver.solve(player1.get_current_strategy(), player2.get_current_strategy()))
-            self.results.append(result)
-            self.playtime += time_to_play_round
+            self.results[(player1.get_current_strategy(), player2.get_current_strategy())] = result
+            self.playtime[(player1.get_current_strategy(), player2.get_current_strategy())] = time_to_play_round
     
     #Solve for the total time taken to play the game.
     # Used to calculate the runtime for quantum versus classical games, and different size matrices

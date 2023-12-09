@@ -116,11 +116,13 @@ class Simplex:
     def checkFeasible(self):
         return np.all(self.tableau[:, -1]) > 0
 
- 
-    # TODO: Call all above functions as subroutines in solve.
+    
+    # Solve the game to fins the nash equilibrium.
+    # Currently only uses the primal-dual approach. Can only find one equilobrium per game.
+    # At the end, updates the players optimal solutions
+    # If a solution is not found, then will return the final expectation value based on the ending probabilities. (shouldn't happen)
     def solve(self, dual_flag= False, strategy1 = None, strategy2 = None):
-        if strategy1 and strategy2:
-            return np.dot(np.transpose(strategy1), np.dot(self.matrix, strategy2))
+        #checks if the game has a pure strategy equilibirum. No need to run the simplex method then as its a simple min row, max col check.
         if self.checkPureStrategies():
             self.update_Player_Strategies()
         self.create_tableau(dual_flag)
@@ -137,9 +139,16 @@ class Simplex:
                 self.solutioncoeff[self.players[0]].append(self.tableau[-1, :] // self.tableau[-1, -1])
                 self.solutioncoeff[self.players[1]].append(self.tableau[:, -1] // self.tableau[-1, -1])
                 self.update_Player_Strategies()
+                return self.get_Expectation_Value(self.solutioncoeff[self.players[0]], self.solutioncoeff[self.players[1]])
+        
         else:
-            return "This game has no minmax strategy "
+            # Get the expectation value the algorithm stopped at
+            return self.get_Expectation_Value(self.tableau[-1, :] // self.tableau[-1, -1], self.tableau[-1, :] // self.tableau[-1, -1])
 
+    # Will also sum to zero, so player_1 is -player_2
+    def get_Expectation_Value(self, strategy1, strategy2):
+            val = np.dot(np.transpose(strategy1), np.dot(self.matrix, strategy2))
+            return (val, -val)
 
     # Minimizing over pure/mixed is the same
     # Maximizing over pure/mixed is different
