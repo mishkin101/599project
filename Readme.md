@@ -1,3 +1,39 @@
+## Overview:
+The aim of this project was to allow players to also choose quantum strategies as well as classical strategies. 
+
+In solving the expected payout for a given strategy, the player's do not know what the other will play when we assume they draw at the same time. By playing many times, they can essentially recover their "density" matrix. Instead of using the simplex method to sample, we want to see if we can effeciently recover the best strategies the player should choose using Gibb's Sampling with the quantum component. 
+
+Our goal is to compare the results using the Gibbs Sampling method rather than the simplex algorithm, which produces a probabilty vector, P(t), and Q(t). In the classical strategy, the simplex is converted from the primal-dual problem using the Maxmin functions to correctly setup the constraints. Upon getting the probabilites, they are fed-in again until the difference are within an e-approximate bound from the last draw. 
+
+The type of game is always a **zero-sum** game, and players are choosing competitve strategies (hence, the minmax functions). Given these assumptions, we are always gauranteed to find a bound. 
+
+
+## Quantum Subroutine Set-up 
+1. pick 2 starting random vectors.
+2. Amplitude estimation to find the max 
+3. If this is 
+
+**Assumptions**
+ Assume the sample drawn from ( payoff strategies) norm >=B and B>=1.
+ - Estimating a single value uj can be done via amplitude estimation. Given we have a heap, we have query (x^T)A, where x is a sparse vector up to some weight t wich accesses a certain neighborhood of the distirbution. Therefore, we obtain a way to query for the max elements player 2 can recieve, given player 1's strategy.
+ - amplitude amplification to find the max
+ - rejection sampling can done via amplitude amplification as well
+
+**Matrix to Heap**
+Convert the matrix to a tree structure so that we can sample within O(log(n)) time and sample from all of a players stragies with
+a probabilitiy that is bounded by a one-norm instead of a 2-norm. Sparsity here is important as the algorithm is more likely to converge to a solution that is robust to outliers when the 1-norm. Its valid to use a 1-norm since this is just dividing over a probability distributon that is classic-- we just get a different metric that represents the distace between the values and changes the probability of getting a mixed strategy from the players set of total strategies.
+
+**Find the Maximum Payoff for player 2 from Player 1's Strategy**
+The rejectiom sampling portion will find the maximum element from the players mixed stratetgy outcome. We Accept with probability the element u_j from player 2's possible payoffs with proability e^(uj-u_max). We must consider sampling from all of players 2 choices, [m], uniformly and post-select for j-- meaning, we want to see how likely it is that this distrbution we have from player 1's choice will produce the max payoff for player 2.
+
+
+## Algorithim
+- Set strategy distirbutons for players -- can be pure or mixed
+- Call game.playRounds to test various comibations of starting strategies and the time taken to solve for the nash equilibirum given this starting set
+- Return all the round with the ending strategies for both players and the expected values at the equilbrium as well as the time to solve each round
+- Test with both the quantum solver and the simplex solver using the dual version of the simplex method
+
+
 ## Notes
 Nash Equilibrium occuers when no one wants to switch their strategy.
 - curr players startegy is as good as any other 
@@ -18,8 +54,7 @@ Esentially, pure strategies are a specific subcase of a mixed strategy. Given an
 In our game, we assume that both players draw from a mixed distribution.
 
 ## Pure Strategy: given player picks one strategy:
-- Minmax function. There is an equivalent condition such that in a "bayes" interpretation", given the other player picks a pure strategy is equivalent to selecting a mixed on. This is because 
-- probability distribution
+- Minmax function. There is an equivalent condition such that in a "bayes" interpretation", given the other player picks a pure strategy is equivalent to selecting a mixed on. 
 
 Each player has selected a strategy such that no player has an incentive to switch to another strategy given the strategies being played by the other players.
 
@@ -56,24 +91,3 @@ A basic variable can be classified to have a single 1 value in its column and th
 non-basic it means the optimal solution of that variable is zero. 
 
 ** Slack ** -- Underitlization 
-
-## Quantum Component:
-
-The aim of this project was to allow players to also choose quantum strategies as well as classical strategies. 
-
-In solving the expected payout for a given strategy, the player's do not know what the other will play when we assume they draw at the same time. By playing many times, they can essentially recover their "density" matrix. Instead of using the simplex method to sample, we want to see if we can effeciently recover the best strategies the player should choose using Gibb's Sampling with the quantum component. 
-
-Our goal is to compare the results using the Gibbs Sampling method rather than the simplex algorithm, which produces a probabilty vector, P(t), and Q(t). In the classical strategy, the simplex is converted from the primal-dual problem using the Maxmin functions to correctly setup the constraints. Upon getting the probabilites, they are fed-in again until the difference are within an e-approximate bound from the last draw. 
-
-The type of game is always a **zero-sum** game, and players are choosing competitve strategies (hence, the minmax functions). Given these assumptions, we are always gauranteed to find a bound. 
-
-## Quantum Subroutine Set-up 
-1. pick 2 starting random vectors.
-2. 
-
-
-## Algorothim
-- Set strategy distirbutons for players -- can be pure or mixed
-- Call game.playRounds to test various comibations of starting strategies and the time taken to solve for the nash equilibirum given this starting set
-- Return all the round with the ending strategies for both players and the expected values at the equilbrium as well as the time to solve each round
-- Test with both the quantum solver and the simplex solver using the dual version of the simplex method
