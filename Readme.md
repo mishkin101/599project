@@ -11,7 +11,7 @@ The type of game is always a **zero-sum** game, and players are choosing competi
 ## Quantum Subroutine Set-up 
 1. pick 2 starting random vectors.
 2. Amplitude estimation to find the max 
-3. If this is 
+3. If this is a feasilible solution, accept it with rejection sampling test
 
 **Assumptions**
  Assume the sample drawn from ( payoff strategies) norm >=B and B>=1.
