@@ -4,6 +4,7 @@ import numpy as np
 import Player
 import Quantum
 import Simplex
+import time
 
 # A Game between players. We focus on zero-sum and 2 player games for this implementation functionality.
 # A game has:
@@ -14,7 +15,7 @@ import Simplex
 #
 
 class Game:
-    game_type = ["Zero-Sum", "Constant-Sum", "Cooperative", "Non-Cooperative"]
+    game_types = ["Zero-Sum", "Constant-Sum", "Cooperative", "Non-Cooperative"]
 
     def __init__(
         self, 
@@ -30,17 +31,18 @@ class Game:
         strategy_values: {int: {Player: np.ndarray}}
     ):
         self.players = []
-        results = []
-        gametype = None
-        rounds = None
-        payoffs = 0
-        player_payoffs = {}
-        strategy_values = {}
+        self.results = []
+        self.gametype = None
+        self.rounds = None
+        self.payoffs = 0
+        self.player_payoffs = {}
+        self.strategy_values = {}
+        self.playtime =0
         return
     
     #Choose a gametype from the Game class.
     def setGameType(self, game: str):
-        self.game_type = Game.game_type[Game.game_type.index(str)]
+        self.game_type = Game.game_types[Game.game_types.index(game)]
 
     #Create the players for the game
     def setPlayers(self, name, strategy_type, num_classical, num_quantum, num_distirbutions):
@@ -75,22 +77,40 @@ class Game:
     def getPayoffMatrix(self, player1, player2):
         return self.player_player_matrices[(player1,player2)]
     
-    #Determine Best Strategies, i.e., the value of the game
+    # Determine Best Strategies, i.e., the value of the game
+    # This follows from the Min/Max theorem for Nash equlibriums
     def calculate_Best_Plays(self, player1, player2):
-        if self.game_type == "Zero-sum":
-            game_value = Simplex(player1, player2, self.gametype)
+        if self.game_type == "Zero-Sum":
+            best_player_strategies = Simplex(player1, player2, self.gametype)
+            best_player_strategies.solve()
+        return player1.get_optimal_strategies(), player2.get_optimal_strategies
+    
+    # Get the expected payout given two strategies if players simutaneously draw 
+    def play_Rounds(self, player1, player2, pure=False, total_strategies = 1, quantum = False):
+        player1.generate_Distributions(total_strategies, pure)
+        player2.generate_Distributions(total_strategies, pure)
+        game_solver = Simplex(player1, player2, self.game_type)
+        for round in range(self.rounds):
+            player1.set_current_strategy(np.random.randint(1, total_strategies))
+            player2.set_current_strategy(np.random.randint(1, total_strategies))
+            time_to_play_round, result = self.timeGame(game_solver.solve(player1.get_current_strategy(), player2.get_current_strategy()))
+            self.results.append(result)
+            self.playtime += time_to_play_round
+    
+    #Solve for the total time taken to play the game.
+    # Used to calculate the runtime for quantum versus classical games, and different size matrices
+    def getPlayTime(self):
+        return self.playtime
+    
+    def timeGame(self, func):
+        start_time = time.time()
+        result = func()
+        end_time = time.time()
+        execution_time = end_time - start_time
+        return execution_time, result
 
-        return game_value
-    
-    def getResults():
-        return 
-    
-    def getPlayTime():
-        return
-    
-    def countMoves():
-        return
-    
-    def getGameType():
+    def getGameType(self):
         return self.gametype
     
+    def setRounds(self, inti):
+        self.rounds = inti

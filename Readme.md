@@ -4,7 +4,6 @@ Nash Equilibrium no one wants to switch: (NOTHING ABOUT PAYOFF AMOUNT)
 - other players startegy does not depend on this option
 dominate: all other stratgies for player
 
-Joint payoff: ?????
 individual versus group incentives
 PD: group and individual in conflict (joint payoffhighest when non-dominate stratgey is played)
 
@@ -16,18 +15,20 @@ Payoff(player 2 | strategy x) =Sum_x: P(player 1 marginal move x)((player 2 payo
     - if pure: see if there does exist a nash equlibirum:
 '
 
-## Pure Strategy: given player picks one strategy, is
+## Pure Strategy: given player picks one strategy:
 - minmax function 
--probability distribution
+- probability distribution
+
+Each player has selected a strategy such that no player has an incentive to switch to another strategy given the strategies being played by the other players.
 
 
-## Simplex method:
+# Simplex method:
 it is like taking steps around intersections of the simplex shape, and testing each maximum point at a corner
 1. Always a max function (multiply by -1 to transform)
 2. <= ( multiply the functions that are not in <= form)
 3. No non negative values (all variables must be >= 0)
 
-## Process:
+### Process:
 1. Check the above conditions
 2. Set constraints to equalities and add slack for each
 3. Put variables into tablaeu (row for optimizaiton (z- rest =0, constraint n,...,))
@@ -51,6 +52,12 @@ c / x coffecient -> remaining units/cost of unit = total produced if we maximize
 
 A basic variable can be classified to have a single 1 value in its column and the rest be all zeros
 non-basic it means the optimal solution of that variable is zero. 
-slack-- underitlization
 
+**slack** -- underitlization 
+
+## Quantum Component:
+
+The aim of this project was to allow players to also choose quantum strategies as well as classical strategies. 
+
+The players are trying to determine their best outcome. They don't know what the 
 

@@ -22,7 +22,8 @@ class Player:
     classical_strategies: int, 
     quantum_strategies: int,
     strategy_type: str,
-    optimal_strategy: int
+    optimal_strategies: [],
+    curren_strategy: np.ndarray
     ):
         self.name = name
         self.distirbutions = {}
@@ -31,11 +32,13 @@ class Player:
         self.winnings = []
         self.losses = []
         self.quantum_strategies = quantum_strategies
-        self.optimal_strategy = None
+        self.optimal_strategies = []
+        self.current_strategy = None
 
   # Generate a sample from the Dirichlet distribution with varied probabilities for 
-  # both the classical and quantum strategies
-  def generate_Distributions(self, num_distributions):
+  # Both the classical and quantum strategies
+  # Or generate a pure distirbution
+  def generate_Distributions(self, num_distributions, pure=False):
 
     if (self.quantum_strategies == 0 or  self.quantum_strategies == 0):
       raise Exception ("The player has no strategies currently. Please create some based on the game.")
@@ -46,17 +49,24 @@ class Player:
        currkey = 1
     i = 0
     while i <= num_distributions:
-      self.distirbutions[currkey] = np.random.dirichlet(np.random.rand(self.quantum_strategies + self.classical_strategies), size=1)
+      if pure:
+         vec = np.zeros(self.quantum_strategies + self.classical_strategies, size=1)
+         random_index = np.random.randint(n)
+         vec[random_index] = 1
+         self.distirbutions[currkey]
+      else:
+         self.distirbutions[currkey] = np.random.dirichlet(np.random.rand(self.quantum_strategies + self.classical_strategies), size=1)
       i+=1
       currkey+=1
 
   # Add an optimal distirbuton if finding mixed strategy from result of a game.
-  def add_Distribution(self, distirbution: np.ndarray):
+  def set_optimal_strategies(self, dist: np.ndarray):
     if self.distirbutions:
       currkey = self.distirbutions.keys()[-1] + 1
     else:
        currkey = 1
-    self.distirbutions[currkey] = distirbution
+    self.distirbutions[currkey] = dist
+    self.optimal_strategies.append[currkey]
   
   def clear_winnings(self):
      self.winnings = []
@@ -95,8 +105,16 @@ class Player:
      self.strategy_type = Player.game_theory_strategies[int]
   
   def get_total_strategies(self):
-     return self.quantum_strategies +self.classical_strategies
+     return self.quantum_strategies + self.classical_strategies
 
   def get_Name(self):
      return self.name
-      
+  
+  def get_optimal_strategies(self):
+     return [self.distirbutions[strategy] for strategy in self.optimal_strategies]
+  
+  def set_current_strategy(self, val):
+     self.current_strategy = self.distirbutions[val]
+   
+  def get_current_strategy(self):
+     return self.current_strategy
