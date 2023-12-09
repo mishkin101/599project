@@ -8,19 +8,17 @@ individual versus group incentives
 PD: group and individual in conflict (joint payoffhighest when non-dominate stratgey is played)
 
 ## Mixed strategy Nash equlibirum:
-- player payoff: (THIS IS EXOPECTATION VALUE) : probability * outcome
-Payoff(player 2 | strategy x) =Sum_x: P(player 1 marginal move x)((player 2 payoff strategy x ))
+- player payoff: expectation value : probability * outcome
+Payoff(player 2 | strategy x) = Sum_x: P(player 1 marginal move x)((player 2 payoff strategy x ))
 - do for all strategies -> solve for marginal probabilities for each player
     - this is the probability for player 1  at which player 2 is indifferent in his strategy (weak domination)
     - if pure: see if there does exist a nash equlibirum:
-'
 
 ## Pure Strategy: given player picks one strategy:
 - minmax function 
 - probability distribution
 
 Each player has selected a strategy such that no player has an incentive to switch to another strategy given the strategies being played by the other players.
-
 
 # Simplex method:
 it is like taking steps around intersections of the simplex shape, and testing each maximum point at a corner
@@ -36,9 +34,9 @@ it is like taking steps around intersections of the simplex shape, and testing e
 5. Divide the current constraints (b col) by the pivot colum -> choose smallest indictor (the upperbound constraint for this variable) (r)
 6. Divie correspondiong row of the indictor by the Pivot A(r,c)
 7. Gaussian eliminaiton
-8. stopping condition: No negative varibale in last row
+8. stopping condition: No negative variable in last row
 
-** The inidicator value (constraint for a given variable) is the smallest a value can be given the others stay 0. 
+The inidicator value (constraint for a given variable) is the smallest a value can be given the others stay 0. 
 meaning, we are checking the maximum "stretch" along an eigenvector? e.i eigenvalue for this basis**
 
 Once we pick x(largest gain we can make from optimizaiton), pick max that x can be withough making corresponding slack var negative
